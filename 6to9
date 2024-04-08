@@ -1,0 +1,555 @@
+PRACTICAL 6
+Aim: Create an application for time picker Dialog
+Activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.example.sonal.myapplication.MainActivity">
+<TextView
+android:id="@+id/textView2"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_alignParentTop="true"
+android:layout_centerHorizontal="true"
+android:text="@string/time_pick"
+android:textAppearance="?android:attr/textAppearanceMedium"/>
+<Button
+android:id="@+id/set_button"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_alignParentTop="true"
+22
+android:layout_centerHorizontal="true"
+android:layout_marginBottom="180dp"
+android:onClick="setTime"
+android:text="@string/time_save"/>
+<TimePicker
+android:id="@+id/timePicker1"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_above="@id/set_button"
+android:layout_centerHorizontal="true"
+android:layout_marginBottom="24dp"/>
+<TextView
+android:id="@+id/textView3"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_alignLeft="@+id/timePicker1"
+android:layout_alignTop="@+id/set_button"
+android:layout_marginTop="40dp"
+android:text="@string/time_current"
+android:textAppearance="?android:attr/textAppearanceMedium"/>
+<TextView
+android:id="@+id/textView"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_below="@+id/textView3"
+23
+android:layout_centerHorizontal="true"
+android:text="@string/time_selected"
+android:textAppearance="?android:attr/textAppearanceMedium"/>
+</android.support.constraint.ConstraintLayout>
+MainActivity.java
+package com.example.sonal.myapplication;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import java.util.Calendar;
+import java.lang.String;
+import android.view.Menu;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.TimePicker;
+public class MainActivity extends AppCompatActivity {
+private TimePicker timePicker1;
+private TextView time;
+private Calendar calendar;
+private String format="";
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+timePicker1=(TimePicker)findViewById(R.id.timePicker1);
+time=(TextView)findViewById(R.id.textView);
+24
+calendar=Calendar.getInstance();
+int hour=calendar.get(Calendar.HOUR_OF_DAY);
+int min=calendar.get(calendar.MINUTE);
+shoeTime(hour,min);
+}
+public void setTime(View view)
+{
+int hour=timePicker1.getHour();
+int min=timePicker1.getMinute();
+shoeTime(hour, min);
+}
+public void shoeTime(int hour,int min)
+{
+if ((hour==0))
+{
+hour+=12;
+format="AM";
+}
+else if (hour==12)
+{
+format="PM";
+}
+else if (hour>12)
+{
+hour=12;
+25
+format="PM";
+}
+else
+{
+format="AM";
+}
+time.setText(new
+StringBuilder().append(hour).append(":").append(min).append("").append(format));
+}
+}
+String.xml
+<resources>
+<string name="app_name">My Application</string>
+<string name="action_settings">Settings</string>
+<string name="time_picker_example">Time Picker Example</string>
+<string name="time_pick">Pick the time and press save button</string>
+<string name="time_save">Save</string>
+<string name="time_selected"></string>
+<string name="time_current">The Time is:</string>
+</resources>
+MainActivity.java
+package com.example.sonal.myapplication;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+27
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TimePicker;
+import android.widget.Button;
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity {
+private TimePicker time_picker;
+private Button button_show_Time;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+showTime();
+}
+public void showTime()
+{
+time_picker=(TimePicker)findViewById(R.id.timePicker);
+button_show_Time=(Button)findViewById(R.id.button);
+button_show_Time.setOnClickListener(
+new View.OnClickListener()
+{
+@Override
+@RequiresApi(api = Build.VERSION_CODES.M)
+public void onClick(View v)
+28
+{
+Toast.makeText(getBaseContext(),time_picker.getHour()+ ":"+ time_picker.getMinute(),
+Toast.LENGTH_SHORT).show();
+}
+}
+);
+}
+}
+Activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.example.sonal.myapplication.MainActivity">
+<TimePicker
+android:id="@+id/timePicker"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+tools:layout_editor_absoluteX="0dp"
+tools:layout_editor_absoluteY="16dp" />
+<Button
+android:id="@+id/button"
+29
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="show Time"
+tools:layout_editor_absoluteX="148dp"
+tools:layout_editor_absoluteY="396dp" />
+</android.support.constraint.ConstraintLayout>
+Datepickerpackage com.example.sonal.myapplication;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.Toast;
+import java.util.Calendar;
+public class MainActivity extends AppCompatActivity {
+Button btn;
+int year_x,month_x,day_x;
+static final int DIALOG_ID=0;
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+30
+final Calendar cal=Calendar.getInstance();
+year_x=cal.get(Calendar.YEAR);
+month_x=cal.get(Calendar.MONTH);
+day_x=cal.get(Calendar.DAY_OF_MONTH);
+showDialogonButtonclick();
+}
+public void showDialogOnButtonClick() {
+btn = (Button) findViewById(R.id.button);
+btn.setOnClickListener(
+new View.OnClickListener() {
+@Override
+public void onClick(View v) {
+showDialog(DIALOG_ID);
+}
+}
+);
+}
+protected Dialog OnCreateDialog(int id)
+{
+if (id==DIALOG_ID)
+return new DatePickerDialog(this,dpickerListener,year_x,month_x,day_x);
+return null;
+}
+private DatePickerDialog.OnDateSetListener dpickerListener
+= new DatePickerDialog.OnDateSetListener()
+31
+{
+@Override
+public void onDateSet(DatePicker view,int year,int monthOfYear,int dayOfMonth)
+{
+year_x=year;
+month_x=monthOfYear+1;
+day_x=dayOfMonth;
+Toast.makeText(MainActivity.this,year_x+"/" +month_x+"/"+day_x,
+Toast.LENGTH_LONG).show();
+}
+};
+}
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.example.sonal.myapplication.MainActivity">
+<Button
+android:id="@+id/button"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:text="SHOW DATE PICKER DIALOG"
+32
+tools:layout_editor_absoluteX="147dp"
+tools:layout_editor_absoluteY="123dp" />
+</android.support.constraint.ConstraintLayout>
+
+
+PRACTICAL 7
+Aim: Create an Android application to pass the data (Program Intent passing)
+Activity_Main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".MainActivity">
+ <LinearLayout
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ android:orientation="vertical">
+ <TextView
+ android:layout_width="fill_parent"
+ android:layout_height="wrap_content"
+ android:layout_marginTop="10dp"
+ android:gravity="center_horizontal"
+ android:text="Input yourName"></TextView>
+ <TableLayout
+ android:id="@+id/tableLayout1"
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:layout_margin="10dp"
+ android:stretchColumns="1">
+ <TableRow
+ android:id="@+id/tableRow1"
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content">
+ <TextView
+ android:id="@+id/textView1"
+ android:layout_width="match_parent"
+34
+ android:layout_height="wrap_content"
+ android:text="FirstName"></TextView>
+ <EditText
+ android:id="@+id/etFName"
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:layout_marginLeft="5dp">
+ <requestFocus></requestFocus>
+ </EditText>
+ </TableRow>
+ <TableRow
+ android:id="@+id/tableRow2"
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content">
+ <TextView
+ android:id="@+id/textView2"
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:text="LastName"></TextView>
+ <EditText
+ android:id="@+id/etLName"
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:layout_marginLeft="5dp"></EditText
+ >
+ </TableRow>
+ </TableLayout>
+ <Button
+ android:id="@+id/btnSubmit"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_gravity="center_horizontal"
+ android:text="Submit"></Button>
+ </LinearLayout>
+</RelativeLayout >
+35
+MainActivity.java
+package com.example.myapplication;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.QuickContactBadge;
+import android.widget.TextView;
+import android.widget.Toast;
+import java.util.Random;
+public class MainActivity extends AppCompatActivity {
+ EditText etFName;
+ EditText etLName;
+ Button btnSubmit;
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ etFName = (EditText) findViewById(R.id.etFName);
+ etLName = (EditText) findViewById(R.id.etLName);
+ btnSubmit = (Button) findViewById(R.id.btnSubmit);
+ btnSubmit.setOnClickListener(new View.OnClickListener()
+ {
+ @Override
+ public void onClick(View v) {
+ Intent intent = new
+ Intent(getApplicationContext(),MainActivity2.class);
+ intent.putExtra("fname",
+36
+ etFName.getText().toString());
+ intent.putExtra("lname",
+ etLName.getText().toString());
+ startActivity(intent);
+ }
+ });
+ }
+}
+Activity_Main2.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".MainActivity2">
+ <TextView
+ android:id="@+id/tvView"
+ android:layout_width="400dp"
+ android:layout_height="85dp"
+ android:layout_gravity="center_horizontal"
+ android:layout_marginTop="20dp"
+ android:text="Output"
+ android:textColor="@android:color/holo_blue_dark"
+ android:textSize="24sp"
+ android:textStyle="bold">
+ </TextView>
+</RelativeLayout>
+MainActivity2.java
+package com.example.myapplication;
+import androidx.appcompat.app.AppCompatActivity;
+37
+import android.os.Bundle;
+import android.content.Intent;
+import android.widget.TextView;
+public class MainActivity2 extends AppCompatActivity {
+ TextView tvView;
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main2);
+ tvView = (TextView) findViewById(R.id.tvView);
+ Intent intent = getIntent();
+ String fName = intent.getStringExtra("fname");
+ String lName = intent.getStringExtra("lname");
+ tvView.setText("Your name is: " + fName + " " + lName);
+ }
+}
+
+PRACTICAL 8
+Aim: Create the media API in android to play an audio file.
+Activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".MainActivity">
+ <Button
+ android:id="@+id/btnPlay"
+ android:layout_width="197dp"
+ android:layout_height="75dp"
+ android:layout_alignParentEnd="true"
+ android:layout_alignParentRight="true"
+ android:layout_alignParentBottom="true"
+ android:layout_marginEnd="87dp"
+ android:layout_marginRight="87dp"
+ android:layout_marginBottom="468dp"
+ android:text="Play Audio"
+ android:onClick="playAudio"
+ />
+ <Button
+ android:id="@+id/btnStop"
+ android:layout_width="208dp"
+ android:layout_height="70dp"
+ android:layout_alignParentEnd="true"
+ android:layout_alignParentRight="true"
+ android:layout_alignParentBottom="true"
+ android:layout_marginEnd="89dp"
+ android:layout_marginRight="89dp"
+ android:layout_marginBottom="356dp"
+ android:text="Stop Audio"
+ android:onClick="onPause"/>
+39
+ <ImageView
+ android:id="@+id/imageView"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content" />
+ <ImageButton
+ android:id="@+id/imageButton5"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_alignParentEnd="true"
+ android:layout_alignParentRight="true"
+ android:layout_alignParentBottom="true"
+ android:layout_marginEnd="66dp"
+ android:layout_marginRight="66dp"
+ android:layout_marginBottom="182dp"
+ android:visibility="invisible"
+ app:srcCompat="@drawable/song"
+ tools:visibility="invisible" />
+</RelativeLayout>
+MainActivity.java
+package com.example.myapplication;
+import androidx.appcompat.app.AppCompatActivity;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity {
+ MediaPlayer mediaPlayer;
+ ImageButton ibtn;
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+40
+ mediaPlayer = MediaPlayer.create(this,R.raw.song);
+ }
+ public void playAudio(View v)
+ {
+ ibtn = findViewById(R.id.imageButton5);
+ ibtn.setVisibility(View.VISIBLE);
+ mediaPlayer.start();
+ Toast.makeText(this, "Music is playing, Connect Ear Phone to Listen the Ringtone",
+ Toast.LENGTH_SHORT).show();
+ }
+ public void onPause(View v) {
+ super.onPause();
+ mediaPlayer.release();
+ ibtn.setVisibility(View.INVISIBLE);
+ }
+}
+
+PRACTICAL 9
+Aim: Create an android Application that open the website www.google.com in
+the browser on the click of a button (program on internet)
+Activity_Main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".MainActivity">
+ <EditText
+ android:id="@+id/editText1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_alignParentTop="true"
+ android:layout_centerHorizontal="true"
+ android:layout_marginTop="44dp"
+ android:ems="10"/>
+ <Button
+ android:id="@+id/button1"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_below="@+id/editText1"
+ android:layout_centerHorizontal="true"
+ android:layout_marginTop="54dp"
+ android:text="Visit"/>
+</RelativeLayout>
+MainActivity.java
+package com.example.myapplication;
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+42
+import android.net.Uri;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.os.Bundle;
+public class MainActivity extends AppCompatActivity {
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ final EditText editText1=(EditText)findViewById(R.id.editText1);
+ Button button1=(Button)findViewById(R.id.button1);
+ button1.setOnClickListener(new View.OnClickListener(){
+ @Override
+ public void onClick(View arg0){
+ String url=editText1.getText().toString();
+ Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+ startActivity(intent);
+ }
+ });
+ }
+}
