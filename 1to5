@@ -1,0 +1,284 @@
+PRACTICAL 1
+Aim: Create the simple “hello world” program
+Activity_Main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".MainActivity">
+ <TextView
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Hello World!"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintEnd_toEndOf="parent"
+ app:layout_constraintStart_toStartOf="parent"
+ app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+MainActivity.java
+package com.example.myapplication;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+public class MainActivity extends AppCompatActivity {
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+2
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ }
+}
+
+PRACTICAL 3
+Aim: Activity Lifecycle
+MainActivity.java
+package com.example.myapplication;
+import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
+import android.os.Bundle;
+public class MainActivity extends AppCompatActivity {
+ String tag = "LifeCycle";
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ Log.d(tag, "In the onCreate()event");
+ }
+ public void onStart() {
+ super.onStart();
+ Log.d(tag, "In the onStart()event");
+ }
+ public void onRestart() {
+ super.onRestart();
+ Log.d(tag, "In the onRestart()event");
+ }
+ public void onResume() {
+ super.onResume();
+ Log.d(tag, "In the onResume()event");
+ }
+11
+ public void onPause() {
+ super.onPause();
+ Log.d(tag, "In the onPause()event");
+ }
+ public void onStop() {
+ super.onStop();
+ Log.d(tag, "In the onStop()event");
+ }
+ public void onDestroy() {
+ super.onDestroy();
+ Log.d(tag, "In the onDestroy()event");
+ }
+}
+
+PRACTICAL 4
+Aim: Create the login form using different layout
+Activity_Main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".MainActivity">
+ <TextView
+ android:id="@+id/textview"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_alignParentTop="true"
+ android:layout_centerHorizontal="true"
+ android:text="Login Example"
+ android:textSize="35dp" />
+ <EditText
+ android:layout_width = "wrap_content"
+ android:layout_height = "wrap_content"
+ android:id = "@+id/editText"
+ android:hint = "Enter Name"
+ android:focusable = "true"
+ android:textColorHighlight = "#ff7eff15"
+ android:layout_marginTop = "46dp"
+ android:layout_alignParentLeft = "true"
+ android:layout_alignParentStart = "true"
+ android:layout_alignParentRight = "true"
+ android:layout_alignParentEnd = "true" />
+ <EditText
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:inputType="textPassword"
+ android:ems="10"
+13
+ android:id="@+id/editText2"
+ android:layout_below="@+id/editText"
+ android:layout_alignParentLeft="true"
+ android:layout_alignParentStart="true"
+ android:layout_alignRight="@+id/editText"
+ android:layout_alignEnd="@+id/editText"
+ android:hint="Password" />
+ <TextView
+ android:id="@+id/textView2"
+ android:layout_width="wrap_content"
+
+android:layout_height="wrap_content"
+ android:layout_below="@+id/editText2"
+ android:layout_alignParentStart="true"
+ android:layout_alignParentLeft="true"
+ android:text="Attempts Remaining"
+ android:textSize="25dp" />
+ <TextView
+ android:id="@+id/textView3"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:layout_alignTop="@+id/textView2"
+ android:layout_alignBottom="@+id/textView2"
+ android:layout_alignParentEnd="true"
+ android:layout_alignParentRight="true"
+ android:layout_toEndOf="@+id/textview"
+ android:layout_toRightOf="@+id/textview"
+ android:text="Text"
+ android:textSize="25dp" />
+ <Button
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="login"
+ android:id="@+id/button"
+ android:layout_alignParentBottom="true"
+ android:layout_toLeftOf="@+id/textview"
+ android:layout_toStartOf="@+id/textview" />
+ <Button
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+14
+ android:text="Cancel"
+ android:id="@+id/button2"
+ android:layout_alignParentBottom="true"
+ android:layout_toRightOf="@+id/textview"
+ android:layout_toEndOf="@+id/textview" />
+</RelativeLayout>
+MainActivity.java
+package com.example.myapplication;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.graphics.Color;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity {
+ Button b1,b2;
+ EditText ed1,ed2;
+ TextView tx1;
+ int counter = 3;
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ b1 = (Button)findViewById(R.id.button);
+ ed1 = (EditText)findViewById(R.id.editText);
+ ed2 = (EditText)findViewById(R.id.editText2);
+ b2 = (Button)findViewById(R.id.button2);
+ tx1 = (TextView)findViewById(R.id.textView3);
+ b1.setOnClickListener(new View.OnClickListener() {
+ @Override
+ public void onClick(View v) {
+15
+ if(ed1.getText().toString().equals("sana") &&
+ ed2.getText().toString().equals("admin")) {
+ Toast.makeText(getApplicationContext(),
+ "Login Successful...",Toast.LENGTH_SHORT).show();
+ }else{
+ Toast.makeText(getApplicationContext(), "Wrong
+Credentials",Toast.LENGTH_SHORT).show();
+ tx1.setVisibility(View.VISIBLE);
+ tx1.setBackgroundColor(Color.RED);
+ counter--;
+ tx1.setText(Integer.toString(counter));
+ if (counter == 0) {
+ b1.setEnabled(false);
+ }
+ }
+ }
+ });
+ b2.setOnClickListener(new View.OnClickListener() {
+ @Override
+ public void onClick(View v) {
+ finish();
+ }
+ });
+ }
+}
+PRACTICAL 5
+Aim: Create a application for showing Menus
+Activity_Main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ xmlns:app="http://schemas.android.com/apk/res-auto"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ tools:context=".MainActivity">
+ <TextView
+ android:id="@+id/mn"
+ android:layout_width="wrap_content"
+ android:layout_height="wrap_content"
+ android:text="Hello World!"
+ app:layout_constraintBottom_toBottomOf="parent"
+ app:layout_constraintLeft_toLeftOf="parent"
+ app:layout_constraintRight_toRightOf="parent"
+ app:layout_constraintTop_toTopOf="parent" />
+ </RelativeLayout>
+MainActivity.java
+package com.example.myapplication;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.TextView;
+public class MainActivity extends AppCompatActivity {
+19
+ TextView mn;
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ mn=findViewById(R.id.mn);
+ }
+ public boolean onCreateOptionsMenu(Menu menu) {
+ MenuInflater m=getMenuInflater();
+ m.inflate(R.menu.menu, menu);
+ return true;
+ }
+ @Override
+ public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+ switch (item.getItemId()) {
+ case R.id.fyit:
+ mn.setText("FYIT");
+ return true;
+ case R.id.syit:
+ mn.setText("SYIT");
+ return true;
+ case R.id.tyit:
+ mn.setText("TYIT");
+ return true;
+ }
+ return super.onOptionsItemSelected(item);
+ }
+}
+Menu.xml
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+ <item
+ android:id="@+id/fyit"
+ android:title="FYIT" />
+ <item
+ android:id="@+id/syit"
+ android:title="SYIT" />
+ <item
+20
+ android:id="@+id/tyit"
+ android:title="TYIT" />
+</menu>
